@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier!{% endblock %}
+
+{% block body %}
+
+    <h1> Mon panier</h1>
+retrouvez ici la liste des produits que vous avez ajouté a votre panier
+{% if(cart|length >0) %}
+<table class="table mt-3">
+  <thead>
+    <tr>
+      <th scope="col">Produits</th>
+      <th scope="col"></th>
+      <th scope="col">Quantité</th>
+      <th scope="col">Prix</th>
+      <th scope="col">Total</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% set total = null %}
+  {% for product in cart %}
+    <tr>
+      <td>
+        <img  src="/uploads/{{product.product.illustration}}" alt="{{product.product.nom}}" height="75px">
+      </td>
+      <td>
+      {{product.product.nom}}<br/>
+      <small>{{product.product.subtitle}}</small>
+      </td>
+      <td>
+      <a href="{{ path('decrease_quantity' , {'id' : product.product.id}) }}">
+        <img  src="{{asset('assets/img/minus.png')}}" alt="ajout quantite" height="12px">
+      </a>
+      {{product.quantity}}
+      <a href="{{ path('add_to_cart',{'id' : product.product.id}) }}">
+        <img  src="{{asset('assets/img/plus.png')}}" alt="supprimer quantite" height="12px">
+      </a>
+      </td>
+      <td>{{product.product.prix/100 | number_format(2)}} TND </td>
+      <td>{{(product.product.prix * product.quantity)/100 | number_format(2)}} TND </td>
+      <td>
+      <a href="{{ path('delete_to_cart',{'id' : product.product.id}) }}">
+        <img  src="{{asset('assets/img/trash.png')}}" alt="supprimer panier" height="20px">
+      </a>
+      </td>
+    </tr>
+    {% set total = total + (product.product.prix * product.quantity) %}
+    {% endfor %}
+  </tbody>
+</table>
+<div class="text-right mb-5 ">
+    <b>nombre des produits :</b> {{cart | length}}<br/>
+    <b>total de mon panier : </b> {{(total/100) | number_format(2)}} TND </br>
+    <a href="{{ path('order') }}" class="btn btn-success btn-block mt-3">Valider mon panier</a>
+</div>
+{% else %}
+<hr>
+<h4> votre panier est vide </h4>
+{% endif %}
+{% endblock %}

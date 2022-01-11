@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous contactez!{% endblock %}
+
+{% block body %}
+    <h1> Nous contactez </h1>
+    <p>N'hésitez pas à nous contactez, nous répondrons dans les meilleurs délais</p>
+    {% for message in app.flashes('notice') %}
+    <div class="alert alert-info"> {{ message }}</div>
+    {% endfor %}
+    <div class="row">
+    <div class="col-md-8">
+        {{form(form)}}
+    </div>
+    <div class="col-md-4">
+        <strong> BADIA by sahar </strong>
+        <p>
+            Tel : 29133256 <br/>
+            Adresse : rue metline zouila Mahdia</br>
+            Email : badiabysahar@gmail.com
+        </p>
+    </div>
+    </div>
+{% endblock %}
